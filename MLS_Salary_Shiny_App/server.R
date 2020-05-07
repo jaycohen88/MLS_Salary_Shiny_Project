@@ -1,8 +1,5 @@
-library(shiny)
-library(tidyverse)
-
 function(input, output) {
-    output$salarytable = renderTable(
+    output$salarytable = renderDataTable(
         salaries %>%
             select('Season'=season,'Club'=club_name,'Last Name'=last_name,
             'First Name'=first_name,'Position'=position,

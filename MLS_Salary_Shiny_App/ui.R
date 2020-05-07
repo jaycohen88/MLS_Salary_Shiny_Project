@@ -1,5 +1,3 @@
-library(shiny)
-
 fluidPage(
     titlePanel('MLS Salary Data 2007-2019'),
     sidebarLayout(
@@ -15,7 +13,7 @@ fluidPage(
                            choices = c('GK','D','M','F'))
         ),
         mainPanel(
-            tableOutput("salarytable")
+            dataTableOutput("salarytable")
         )
     )
 )
