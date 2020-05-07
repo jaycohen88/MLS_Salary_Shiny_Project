@@ -1,0 +1,167 @@
+---
+title: "MLS_Salary_Data_Clean"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyverse)
+```
+
+
+```{r}
+salaries_2019 = read_csv('salaries_2019.csv')
+head(salaries_2019)
+```
+
+```{r}
+colnames(salaries_2019) = tolower(colnames(salaries_2019))
+colnames(salaries_2019) = gsub(' ', '_', colnames(salaries_2019))
+head(salaries_2019)
+```
+```{r}
+salaries_2019 = salaries_2019 %>% rename('position' = 'playing_position', 'current_annualized_base_salary' = 'cy_salary_(annual)', 'annualized_average_guaranteed_comp' = 'cy_guaranteed_comp_(annual)') %>% mutate(season = 2019)
+
+```
+
+```{r}
+salaries_2019$current_annualized_base_salary = gsub(',','',salaries_2019$current_annualized_base_salary, fixed=TRUE)
+
+salaries_2019$current_annualized_base_salary = gsub(')','',salaries_2019$current_annualized_base_salary, fixed=TRUE)
+
+salaries_2019$current_annualized_base_salary = gsub('$','',salaries_2019$current_annualized_base_salary, fixed=TRUE)
+
+salaries_2019$current_annualized_base_salary =
+gsub(' ','',salaries_2019$current_annualized_base_salary, fixed=TRUE)
+
+salaries_2019$annualized_average_guaranteed_comp = gsub(',','',salaries_2019$annualized_average_guaranteed_comp, fixed=TRUE)
+
+salaries_2019$annualized_average_guaranteed_comp = gsub(')','',salaries_2019$annualized_average_guaranteed_comp, fixed=TRUE)
+
+salaries_2019$annualized_average_guaranteed_comp = gsub('$','',salaries_2019$annualized_average_guaranteed_comp, fixed=TRUE)
+
+salaries_2019$annualized_average_guaranteed_comp =
+gsub(' ','',salaries_2019$annualized_average_guaranteed_comp, fixed=TRUE)
+
+
+```
+
+
+```{r}
+salaries_2019$current_annualized_base_salary = as.numeric(salaries_2019$current_annualized_base_salary)
+
+salaries_2019$annualized_average_guaranteed_comp = as.numeric(salaries_2019$annualized_average_guaranteed_comp)
+salaries_2019
+```
+```{r}
+salaries_2019$current_annualized_base_salary = round(salaries_2019$current_annualized_base_salary, digits = 0)
+
+salaries_2019$annualized_average_guaranteed_comp = round(salaries_2019$annualized_average_guaranteed_comp, digits = 0)
+
+salaries_2019
+```
+```{r}
+salaries_2019 = salaries_2019 %>% rename('club_name' = 'club')
+
+salaries_2019 = mutate(salaries_2019, club_abbr = 
+    ifelse(club_name=='Atlanta United','ATL',
+      ifelse(club_name=='Chicago Fire','CHI',
+        ifelse(club_name=='Chivas USA','CHV',
+          ifelse(club_name=='Columbus Crew','CLB',
+            ifelse(club_name=='Colorado Rapids','COL',
+              ifelse(club_name=='FC Dallas','FCD',
+                ifelse(club_name=='DC United','DC',
+                  ifelse(club_name=='Houston Dynamo','HOU',
+                    ifelse(club_name=='Sporting Kansas City','KC',
+                      ifelse(club_name=='LA Galaxy','LAG',
+                        ifelse(club_name=='Minnesota United','MNU',
+                          ifelse(club_name=='Montreal Impact','MTL',
+                            ifelse(club_name=='New England Revolution','NE',
+                              ifelse(club_name=='New York Red Bulls','RBNY',
+                                  ifelse(club_name=='New York City FC','NYC',
+                                    ifelse(club_name=='Orlando City SC','ORL',
+                                      ifelse(club_name=='Philadelphia Union','PHI',
+                                        ifelse(club_name=='Portland Timbers','POR',
+                                          ifelse(club_name=='Real Salt Lake','RSL',
+                                            ifelse(club_name=='Seattle Sounders FC','SEA',
+                                              ifelse(club_name=='San Jose Earthquakes','SJ',
+                                                ifelse(club_name=='Toronto FC','TFC',
+                                                    ifelse(club_name=='Vancouver Whitecaps', 'VAN', club_name)
+                                                  )))))))))))))))))))))))
+
+
+salaries_2019$club_abbr = gsub('FC Cincinnati','CIN', salaries_2019$club_abbr)
+
+salaries_2019
+```
+
+```{r}
+write.csv(salaries_2019, file='salaries_2019_cleaned.csv')
+```
+
+
+```{r}
+salaries_through_2018 = read_csv('mls_salaries.csv')
+```
+```{r}
+salaries_through_2018 = salaries_through_2018 %>% rename('current_annualized_base_salary' = 'base_salary', 'annualized_average_guaranteed_comp' = 'total_compensation')
+head(salaries_through_2018)
+
+```
+
+```{r}
+
+salaries_through_2018 = mutate(salaries_through_2018, club_name = 
+    ifelse(club=='ATL', 'Atlanta United',
+      ifelse(club=='CHI', 'Chicago Fire',
+        ifelse(club=='CHV', 'Chivas USA',
+          ifelse(club=='CLB', 'Columbus Crew',
+            ifelse(club=='COL', 'Colorado Rapids',
+              ifelse(club=='DAL', 'FC Dallas',
+                ifelse(club=='DC', 'DC United',
+                  ifelse(club=='HOU', 'Houston Dynamo',
+                    ifelse(club=='KC', 'Sporting Kansas City',
+                      ifelse(club=='LA', 'LA Galaxy',
+                        ifelse(club=='MNUFC', 'Minnesota United',
+                          ifelse(club=='MTL', 'Montreal Impact',
+                            ifelse(club=='NE', 'New England Revolution',
+                              ifelse(club=='NY', 'New York Red Bulls',
+                                ifelse(club=='NYRB', 'New York Red Bulls',
+                                  ifelse(club=='NYCFC', 'New York City FC',
+                                    ifelse(club=='ORL', 'Orlando City SC',
+                                      ifelse(club=='PHI', 'Philadelphia Union',
+                                        ifelse(club=='POR', 'Portland Timbers',
+                                          ifelse(club=='RSL', 'Real Salt Lake',
+                                            ifelse(club=='SEA', 'Seattle Sounders FC',
+                                              ifelse(club=='SJ', 'San Jose Earthquakes',
+                                                ifelse(club=='TFC', 'Toronto FC',
+                                                  ifelse(club=='TOR', 'Toronto FC',
+                                                    ifelse(club=='VAN', 'Vancouver Whitecaps', club)
+                                                  )))))))))))))))))))))))))
+
+```
+
+```{r}
+salaries_through_2018 = salaries_through_2018 %>% select(.,-club)
+
+head(salaries_through_2018)
+```
+```{r}
+salaries_through_2018 = salaries_through_2018 %>% rename('club_abbr' = 'club_grouped')
+head(salaries_through_2018)
+```
+```{r}
+write.csv(salaries_through_2018, file='salaries_through_2018_cleaned.csv')
+```
+
+```{r}
+
+all_salaries = rbind(salaries_2019, salaries_through_2018)
+all_salaries
+
+```
+```{r}
+write.csv(all_salaries, file='Final_Salary_Data.csv')
+```
+
