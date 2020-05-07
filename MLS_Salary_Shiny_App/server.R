@@ -5,7 +5,9 @@ function(input, output) {
             'First Name'=first_name,'Position'=position,
             'Annualized Base Salary'=current_annualized_base_salary,
             'Annualized Average Guaranteed Compensation'=annualized_average_guaranteed_comp)
-            %>% filter(Club == input$club & Season == input$season) %>%
-            filter(str_detect(Position, input$position))
+            %>% filter(Club == input$club, 
+                       Season >= input$season[1] & Season <= input$season[2], 
+                       Position %in% input$position)
+
 )
 }
