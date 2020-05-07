@@ -158,10 +158,21 @@ write.csv(salaries_through_2018, file='salaries_through_2018_cleaned.csv')
 ```{r}
 
 all_salaries = rbind(salaries_2019, salaries_through_2018)
-all_salaries
 
 ```
+
+
+```{r}
+
+all_salaries$position = gsub('-','',all_salaries$position, fixed=TRUE)
+all_salaries$position = gsub('/','',all_salaries$position, fixed=TRUE)
+
+all_salaries = select(all_salaries, -X1)
+head(all_salaries)
+
+```
+
+
 ```{r}
 write.csv(all_salaries, file='Final_Salary_Data.csv')
 ```
-
