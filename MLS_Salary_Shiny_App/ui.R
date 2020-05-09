@@ -8,7 +8,9 @@ fluidPage(
             
             selectizeInput(inputId = "club",
                            label = "Club",
-                           choices = unique(salaries$club_name)),
+                           choices = unique(salaries$club_name),
+                           selected = 'Atlanta United',
+                           multiple = TRUE),
             
             sliderInput(inputId = "season",
                         label = "Season",
