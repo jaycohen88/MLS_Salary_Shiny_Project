@@ -20,12 +20,12 @@ fluidPage(
             
             checkboxGroupInput(inputId = "position",
                                label = "Position", 
-                               choices = c('GK','D','M','F'), 
-                               selected = c('GK','D','M','F'))
+                               choices = c('GK','D','M','F','None Listed'), 
+                               selected = c('GK','D','M','F','None Listed'))
         ),
         
         mainPanel(
-            dataTableOutput("salarytable")
+            DTOutput("salarytable")
         )
     )
 )

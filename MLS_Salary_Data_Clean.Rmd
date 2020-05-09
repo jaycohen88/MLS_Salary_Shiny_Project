@@ -5,7 +5,6 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(dplyr)
 library(tidyverse)
 ```
 
@@ -171,6 +170,34 @@ all_salaries = select(all_salaries, -X1)
 head(all_salaries)
 
 ```
+
+```{r}
+all_salaries$position = gsub('DM','D/M',all_salaries$position, fixed=TRUE)
+
+all_salaries$position = gsub('DF','D/F',all_salaries$position, fixed=TRUE)
+
+all_salaries$position = gsub('MD','M/D',all_salaries$position, fixed=TRUE)
+
+all_salaries$position = gsub('MF','M/F',all_salaries$position, fixed=TRUE)
+
+all_salaries$position = gsub('FD','F/D',all_salaries$position, fixed=TRUE)
+
+all_salaries$position = gsub('FM','F/M',all_salaries$position, fixed=TRUE)
+
+all_salaries$position = replace_na(all_salaries$position,'None Listed')
+
+all_salaries$club_name = gsub('MLS','Major League Soccer', all_salaries$club_name)
+
+all_salaries$club_abbr = gsub('Major League Soccer','MLS', all_salaries$club_abbr)
+
+all_salaries$club_abbr = gsub('Inter Miami','MIA', all_salaries$club_abbr)
+
+all_salaries$club_abbr = gsub('Nashville SC','NSC', all_salaries$club_abbr)
+
+head(all_salaries)
+
+```
+
 
 
 ```{r}
