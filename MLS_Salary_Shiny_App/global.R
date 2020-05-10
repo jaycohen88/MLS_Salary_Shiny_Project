@@ -30,7 +30,11 @@ Ftable = rename(Ftable, 'ispos' = isF)
 
 positiontable = rbind(GKtable, Dtable, Mtable, Ftable)
 
-salaries$current_annualized_base_salary=formatC(salaries$current_annualized_base_salary,digits=0,format='f',big.mark=',')
-salaries$annualized_average_guaranteed_comp=formatC(salaries$annualized_average_guaranteed_comp,digits=0,format='f',big.mark=',')
+mainsalariestable = salaries
 
+mainsalariestable$current_annualized_base_salary=formatC(mainsalariestable$current_annualized_base_salary,digits=0,format='f',big.mark=',')
+mainsalariestable$annualized_average_guaranteed_comp=formatC(mainsalariestable$annualized_average_guaranteed_comp,digits=0,format='f',big.mark=',')
 
+seasontable = salaries
+
+seasontable$season = as.factor(seasontable$season)
