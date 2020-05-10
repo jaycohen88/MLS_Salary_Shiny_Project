@@ -199,7 +199,158 @@ head(all_salaries)
 ```
 
 
-
 ```{r}
 write.csv(all_salaries, file='Final_Salary_Data.csv')
 ```
+
+
+
+```{r}
+points = read_csv('/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/MLS_points.csv', col_names = FALSE)
+```
+
+```{r}
+points = t(points)
+```
+
+```{r}
+points = unlist(points)
+```
+
+
+```{r}
+points2019 = points[, 1:5]
+points2018 = points[, 6:10]
+points2017 = points[, 11:15]
+points2016 = points[, 16:20]
+points2015 = points[, 21:25]
+points2014 = points[, 26:30]
+points2013 = points[, 31:35]
+points2012 = points[, 36:40]
+points2011 = points[, 41:45]
+points2010 = points[, 46:50]
+points2009 = points[, 51:55]
+points2008 = points[, 56:60]
+points2007 = points[, 61:65]
+
+```
+
+
+```{r}
+
+colnames(points2019) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2018) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2017) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2016) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2015) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2014) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2013) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2012) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2011) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2010) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2009) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2008) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+colnames(points2007) = c('club', 'matches_played', 'wins', 'draws', 'losses')
+
+```
+
+
+```{r}
+points2019 = as.data.frame(points2019, stringsAsFactors=FALSE)
+points2018 = as.data.frame(points2018, stringsAsFactors=FALSE)
+points2017 = as.data.frame(points2017, stringsAsFactors=FALSE)
+points2016 = as.data.frame(points2016, stringsAsFactors=FALSE)
+points2015 = as.data.frame(points2015, stringsAsFactors=FALSE)
+points2014 = as.data.frame(points2014, stringsAsFactors=FALSE)
+points2013 = as.data.frame(points2013, stringsAsFactors=FALSE)
+points2012 = as.data.frame(points2012, stringsAsFactors=FALSE)
+points2011 = as.data.frame(points2011, stringsAsFactors=FALSE)
+points2010 = as.data.frame(points2010, stringsAsFactors=FALSE)
+points2009 = as.data.frame(points2009, stringsAsFactors=FALSE)
+points2008 = as.data.frame(points2008, stringsAsFactors=FALSE)
+points2007 = as.data.frame(points2007, stringsAsFactors=FALSE)
+
+```
+
+
+```{r}
+points2019 = mutate(points2019, season = '2019')
+points2018 = mutate(points2018, season = '2018')
+points2017 = mutate(points2017, season = '2017')
+points2016 = mutate(points2016, season = '2016')
+points2015 = mutate(points2015, season = '2015')
+points2014 = mutate(points2014, season = '2014')
+points2013 = mutate(points2013, season = '2013')
+points2012 = mutate(points2012, season = '2012')
+points2011 = mutate(points2011, season = '2011')
+points2010 = mutate(points2010, season = '2010')
+points2009 = mutate(points2009, season = '2009')
+points2008 = mutate(points2008, season = '2008')
+points2007 = mutate(points2007, season = '2007')
+
+```
+
+
+```{r}
+
+all_points = rbind(points2019,points2018,points2017,points2016,points2015,points2014,points2013,
+                   points2012,points2011,points2010,points2009,points2008,points2007)
+
+```
+
+```{r}
+
+all_points$matches_played = as.numeric(all_points$matches_played)
+all_points$wins = as.numeric(all_points$wins)
+all_points$draws = as.numeric(all_points$draws)
+all_points$losses = as.numeric(all_points$losses)
+
+```
+
+
+```{r}
+
+all_points = mutate(all_points, points = wins*3 + draws)
+
+```
+
+```{r}
+all_points = mutate(all_points, points_per_match = points/matches_played)
+```
+
+
+```{r}
+all_points$club = gsub('Atlanta','Atlanta United', all_points$club)
+all_points$club = gsub('Chicago','Chicago Fire', all_points$club)
+all_points$club = gsub('Colorado','Colorado Rapids', all_points$club)
+all_points$club = gsub('Colorado','Colorado Rapids', all_points$club)
+all_points$club = gsub('Columbus','Columbus Crew', all_points$club)
+all_points$club = gsub('Columbus','Columbus Crew', all_points$club)
+all_points$club = gsub('D.C. United','DC United', all_points$club)
+all_points$club = gsub('Houston','Houston Dynamo', all_points$club)
+all_points$club = gsub('Los Angeles FC','LAFC', all_points$club)
+all_points$club = gsub('Minnesota','Minnesota United', all_points$club)
+all_points$club = gsub('Montreal','Montreal Impact', all_points$club)
+all_points$club = gsub('New England','New England Revolution', all_points$club)
+all_points$club = gsub('NYCFC','New York City FC', all_points$club)
+all_points$club = gsub('NY Red Bulls','New York Red Bulls', all_points$club)
+all_points$club = gsub('Orlando City','Orlando City SC', all_points$club)
+all_points$club = gsub('Philadelphia','Philadelphia Union', all_points$club)
+all_points$club = gsub('Portland','Portland Timbers', all_points$club)
+all_points$club = gsub('San Jose','San Jose Earthquakes', all_points$club)
+all_points$club = gsub('Seattle','Seattle Sounders FC', all_points$club)
+all_points$club = gsub('Sporting KC','Sporting Kansas City', all_points$club)
+all_points$club = gsub('KC Wizards','Sporting Kansas City', all_points$club)
+all_points$club = gsub('Vancouver','Vancouver Whitecaps', all_points$club)
+
+```
+
+```{r}
+all_points = drop_na(all_points, points)
+```
+
+```{r}
+write.csv(all_points, file='Points_Data_cleaned.csv')
+```
+
+
