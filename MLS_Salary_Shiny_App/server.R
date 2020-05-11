@@ -28,7 +28,7 @@ function(input, output) {
       %>% group_by(ispos)
       %>% summarize(pavg = mean(annualized_average_guaranteed_comp))
       %>% ggplot(aes(x=reorder(ispos,pavg), y=pavg)) + 
-          geom_col(fill = "darkblue", width = .7) +
+          geom_col(fill = "azure4", width = .7) +
           labs(title = 'Mean Annualized Average Guaranteed Compensation by Position',
               x='Position',
               y='Mean Annualized Average Guaranteed Compensation ($)') +
@@ -41,7 +41,7 @@ function(input, output) {
       %>% filter(season == '2019')
       %>% filter(club_name == input$chooseclub1 | club_name == input$chooseclub2 | club_name == input$chooseclub3)
       %>% ggplot(aes(club_name, annualized_average_guaranteed_comp)) +
-          geom_boxplot() +
+          geom_boxplot(color="black", fill="darkorchid4") +
           labs(title = '2019 Mean Annualized Average Guaranteed Compensation by Club',
               x='Club',
               y='Mean Annualized Average Guaranteed Compensation ($)') +

@@ -66,7 +66,9 @@ dashboardPage(
                                              step = 1,
                                              sep = ""))),
                     fluidRow(box(width = 8, height = 500,
-                                plotOutput("positionbarplot")))),
+                                plotOutput("positionbarplot"))),
+                    fluidRow(h4("Notes"),
+                             div("Mean Annual Average Guaranteed Compensation equals the mean of the annual average guaranteed compensation figures for each player playing each position on the selected clubs during the selected season(s)."))),
         
             tabItem(tabName = "byclub",
                     fluidRow(box(width = 12,
@@ -83,7 +85,9 @@ dashboardPage(
                                                 choices = unique(salaries$club_name),
                                                 selected = 'Toronto FC'))),
                     fluidRow(box(width = 12, height = 500,
-                                plotOutput("clubboxplot")))),
+                                plotOutput("clubboxplot"))),
+                    fluidRow(h4("Notes"),
+                             div("Mean Annual Average Guaranteed Compensation equals the mean of the annual average guaranteed compensation figures for each player on the selected clubs during the 2019 season."))),
             
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(
