@@ -13,7 +13,7 @@ function(input, output) {
   output$seasonboxplot = renderPlot(
     seasontable %>%
       select(season,club_name,last_name,first_name,annualized_average_guaranteed_comp)
-      %>% ggplot(aes(season,annualized_average_guaranteed_comp)) +
+      %>% ggplot(aes(x=season, y=annualized_average_guaranteed_comp)) +
           geom_boxplot() +
           labs(title = 'Mean Annualized Average Guaranteed Compensation by Season',
               x='Season',
