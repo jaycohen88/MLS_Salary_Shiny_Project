@@ -13,12 +13,15 @@ function(input, output) {
   output$seasonboxplot = renderPlot(
     seasontable %>%
       select(season,club_name,last_name,first_name,annualized_average_guaranteed_comp)
-      %>% ggplot(aes(x=season, y=annualized_average_guaranteed_comp)) +
+      %>% ggplot(aes(x=season, y=annualized_average_guaranteed_comp, fill=season)) +
           geom_boxplot() +
+          scale_fill_viridis(direction=-1, discrete=TRUE) +
           labs(title = 'Mean Annualized Average Guaranteed Compensation by Season',
               x='Season',
               y='Mean Annualized Average Guaranteed Compensation ($)') +
+          theme(legend.position = "none") +
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
+    
   
   output$positionbarplot = renderPlot(
     positiontable %>%
@@ -41,7 +44,7 @@ function(input, output) {
       %>% filter(season == '2019')
       %>% filter(club_name == input$chooseclub1 | club_name == input$chooseclub2 | club_name == input$chooseclub3)
       %>% ggplot(aes(club_name, annualized_average_guaranteed_comp)) +
-          geom_boxplot(color="black", fill="darkorchid4") +
+          geom_boxplot(color="black", fill="#440154FF") +
           labs(title = '2019 Mean Annualized Average Guaranteed Compensation by Club',
               x='Club',
               y='Mean Annualized Average Guaranteed Compensation ($)') +
