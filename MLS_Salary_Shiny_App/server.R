@@ -18,7 +18,7 @@ function(input, output) {
           scale_fill_viridis(direction=-1, discrete=TRUE) +
           labs(title = 'Mean Annualized Average Guaranteed Compensation by Season',
               x='Season',
-              y='Mean Annualized Average Guaranteed Compensation ($)') +
+              y='Mean Annualized Average Guaranteed Compensation') +
           theme(legend.position = "none") +
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
     
@@ -34,7 +34,7 @@ function(input, output) {
           geom_col(fill = "azure4", width = .7) +
           labs(title = 'Mean Annualized Average Guaranteed Compensation by Position',
               x='Position',
-              y='Mean Annualized Average Guaranteed Compensation ($)') +
+              y='Mean Annualized Average Guaranteed Compensation') +
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)) +
           scale_x_discrete(breaks=c("isGK","isD","isM","isF"), labels=c("GK","D","M","F")))
 
@@ -47,13 +47,13 @@ function(input, output) {
           geom_boxplot(color="black", fill="#440154FF") +
           labs(title = '2019 Mean Annualized Average Guaranteed Compensation by Club',
               x='Club',
-              y='Mean Annualized Average Guaranteed Compensation ($)') +
+              y='Mean Annualized Average Guaranteed Compensation') +
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
   
   output$pointsscatterplot = renderPlotly(
-    ggplot(pointsbyclubspend, aes(total_spend, points_per_match)) + geom_point(aes(color=season, text=club)) +
+    ggplot(pointsbyclubspend, aes(season_salary_total, points_per_match)) + geom_point(aes(color=season, text=club)) +
       geom_smooth(method=lm) +
-      labs(title = 'Points Per Match By Club Total Spend', x='Annual Salary Total ($)', y='Points Per Match') + 
+      labs(title = 'Points Per Match By Club Season Salary Total', x='Club Season Salary Total', y='Points Per Match') + 
       scale_color_viridis(direction = -1, discrete = TRUE) +
       scale_x_continuous(labels=dollar),
     ggplotly(tooltip = 'text'))

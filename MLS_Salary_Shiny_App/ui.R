@@ -42,13 +42,13 @@ dashboardPage(
                                 DT::DTOutput("salarytable"))),
                     fluidRow(h4("Notes"),
                              div("Salary Data from the MLS Players Association."),
-                             div("Annual Average Guaranteed Compensation includes a player's base salary and all signing and guaranteed bonuses and agent's fees annualized over the term of the player's contract, including option years."))),
+                             div("Annualized Average Guaranteed Compensation includes a player's base salary and all signing and guaranteed bonuses and agent's fees annualized over the term of the player's contract, including option years."))),
             
             tabItem(tabName = "byseason",
                     fluidRow(box(width = 12, height = 500,
                                 plotOutput("seasonboxplot"))),
                     fluidRow(h4("Notes"),
-                            div("Mean Annual Average Guaranteed Compensation equals the mean of the annual average guaranteed compensation figures for each player in the League that season."))),
+                            div("Mean Annualized Average Guaranteed Compensation equals the mean of the annualized average guaranteed compensation figures for each player in the League that season."))),
                           
             tabItem(tabName = "byposition",
                     fluidRow(box(width = 6,
@@ -68,7 +68,7 @@ dashboardPage(
                     fluidRow(box(width = 8, height = 500,
                                 plotOutput("positionbarplot"))),
                     fluidRow(h4("Notes"),
-                             div("Mean Annual Average Guaranteed Compensation equals the mean of the annual average guaranteed compensation figures for each player playing each position on the selected clubs during the selected season(s)."))),
+                             div("Mean Annualized Average Guaranteed Compensation equals the mean of the annualized average guaranteed compensation figures for each player playing each position on the selected clubs during the selected season(s)."))),
         
             tabItem(tabName = "byclub",
                     fluidRow(box(width = 12,
@@ -87,13 +87,13 @@ dashboardPage(
                     fluidRow(box(width = 12, height = 500,
                                 plotOutput("clubboxplot"))),
                     fluidRow(h4("Notes"),
-                             div("Mean Annual Average Guaranteed Compensation equals the mean of the annual average guaranteed compensation figures for each player on the selected clubs during the 2019 season."))),
+                             div("Mean Annualized Average Guaranteed Compensation equals the mean of the annualized average guaranteed compensation figures for each player on the selected clubs during the 2019 season."))),
             
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(
                                 plotlyOutput("pointsscatterplot", width = '1000px', height='500px'))),
                     fluidRow(h4("Notes"),
-                             div("Annual Salary Total equals the sum of the annualized average guaranteed compensation figures for each player on the club that season.")))
+                             div("Club Season Salary Total equals the sum of the annualized average guaranteed compensation figures for each player on the club that season.")))
                     
             )
             

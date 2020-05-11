@@ -7,7 +7,7 @@ library(scales)
 library(plotly)
 library(viridis)
 
-salaries = fread(file = "/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/MLS_Salary_Shiny_App/Final_Salary_Data.csv")
+salaries = fread(file = 'Final_Salary_Data.csv')
 
 GKtable = mutate(salaries,'isGK' = str_detect(position, 'GK'))
 GKtable = filter(GKtable, isGK == 'TRUE')
@@ -40,7 +40,7 @@ seasontable = salaries
 
 seasontable$season = as.factor(seasontable$season)
 
-points = fread(file = '/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/MLS_Salary_Shiny_App/Points_Data_cleaned.csv')
+points = fread(file = 'Points_Data_cleaned.csv')
 
 minipoints = points %>% select(club, season, points, points_per_match)
 
@@ -51,8 +51,8 @@ clubspenddf = minisalaries %>% group_by(club, season) %>% summarise(sum(annualiz
 
 pointsbyclubspend = full_join(minipoints, clubspenddf)
 
-pointsbyclubspend = rename(pointsbyclubspend, total_spend = 'sum(annualized_average_guaranteed_comp)')
+pointsbyclubspend = rename(pointsbyclubspend, season_salary_total = 'sum(annualized_average_guaranteed_comp)')
 pointsbyclubspend$season = as.character(pointsbyclubspend$season)
-pointsbyclubspend = select(pointsbyclubspend, club, season, total_spend, points_per_match)
+pointsbyclubspend = select(pointsbyclubspend, club, season, season_salary_total, points_per_match)
 
 
