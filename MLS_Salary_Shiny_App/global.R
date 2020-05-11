@@ -52,9 +52,7 @@ clubspenddf = minisalaries %>% group_by(club, season) %>% summarise(sum(annualiz
 pointsbyclubspend = full_join(minipoints, clubspenddf)
 
 pointsbyclubspend = rename(pointsbyclubspend, total_spend = 'sum(annualized_average_guaranteed_comp)')
-pointsbyclubspend = rename(pointsbyclubspend, club_name = 'club')
 pointsbyclubspend$season = as.character(pointsbyclubspend$season)
-pointsbyclubspend = unite(pointsbyclubspend, 'club', c('club_name','season'), sep = ' ', remove = FALSE)
 pointsbyclubspend = select(pointsbyclubspend, club, season, total_spend, points_per_match)
 
 
