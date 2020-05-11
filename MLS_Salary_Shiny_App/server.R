@@ -48,11 +48,13 @@ function(input, output) {
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
   
   output$pointsscatterplot = renderPlotly(
-    ggplot(pointsbyclubspend, aes(total_spend, points_per_match, text = club)) + geom_point(color='darkblue') +
+    ggplot(pointsbyclubspend, aes(total_spend, points_per_match, text = club)) + geom_point(aes(color=season)) +
       labs(title = 'Points Per Match By Club Total Spend', x='Annual Salary Total ($)', y='Points Per Match') + 
+      scale_color_viridis(direction = -1, discrete = TRUE) +
       scale_x_continuous(labels=dollar),
     ggplotly(tooltip='text'))
   
-  
 }
+
+
 

@@ -24,26 +24,26 @@ dashboardPage(
                                            choices = unique(salaries$club_name),
                                            selected = 'Atlanta United',
                                            multiple = TRUE)),
-                        box(width = 4,  
-                            sliderInput(inputId = "tableseason",
+                            box(width = 4,  
+                                sliderInput(inputId = "tableseason",
                                         label = "Season",
                                         min = 2007, 
                                         max = 2019, 
                                         value = c(2007,2019),
                                         step = 1,
                                         sep = "")),
-                        box(width = 4,
-                            checkboxGroupInput(inputId = "tableposition",
+                            box(width = 4,
+                                checkboxGroupInput(inputId = "tableposition",
                                                label = "Position", 
                                                choices = c('GK','D','M','F','None Listed'), 
                                                selected = c('GK','D','M','F','None Listed'),
                                                inline = TRUE))),
                     fluidRow(box(width = 12,
-                            DT::DTOutput("salarytable")))),
+                                DT::DTOutput("salarytable")))),
             
             tabItem(tabName = "byseason",
                     fluidRow(box(width = 12, height = 500,
-                            plotOutput("seasonboxplot")))),
+                                plotOutput("seasonboxplot")))),
                           
             tabItem(tabName = "byposition",
                     fluidRow(box(width = 6,
@@ -82,7 +82,7 @@ dashboardPage(
             
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(
-                        plotlyOutput("pointsscatterplot", width = '175%', height='175%'))))
+                                plotlyOutput("pointsscatterplot", width = '175%', height='175%'))))
             
         )
     )
