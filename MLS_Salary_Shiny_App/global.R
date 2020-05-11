@@ -4,6 +4,7 @@ library(tidyverse)
 library(DT)
 library(shinydashboard)
 library(scales)
+library(plotly)
 
 salaries = fread(file = 
 "/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/Final_Salary_Data.csv")
@@ -38,3 +39,21 @@ mainsalariestable$annualized_average_guaranteed_comp=formatC(mainsalariestable$a
 seasontable = salaries
 
 seasontable$season = as.factor(seasontable$season)
+
+points = fread(file = 
+                   "/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/Points_Data_cleaned.csv")
+
+minipoints = points %>% select(club, season, points, points_per_match)
+
+minisalaries = salaries %>% select(club=club_name, season, annualized_average_guaranteed_comp)
+minisalaries = filter(minisalaries, club != 'Major League Soccer' & club != 'Inter Miami' & club != 'Nashville SC')
+
+clubspenddf = minisalaries %>% group_by(club, season) %>% summarise(sum(annualized_average_guaranteed_comp))
+
+pointsbyclubspend = full_join(minipoints, clubspenddf)
+
+pointsbyclubspend = rename(pointsbyclubspend, total_spend = 'sum(annualized_average_guaranteed_comp)')
+pointsbyclubspend$season = as.character(pointsbyclubspend$season)
+pointsbyclubspend = unite(pointsbyclubspend, 'club', c('club','season'), sep = ' ', remove = TRUE)
+
+

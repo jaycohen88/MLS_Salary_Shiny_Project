@@ -10,7 +10,8 @@ dashboardPage(
             menuItem("Data", tabName = "data", icon = icon("database")),
             menuItem("By Season", tabName = "byseason", icon = icon("calendar")),
             menuItem("By Position", tabName = "byposition", icon = icon("search-location")),
-            menuItem("By Club in 2019", tabName = "byclub", icon = icon("users"))
+            menuItem("By Club in 2019", tabName = "byclub", icon = icon("users")),
+            menuItem("Points By Club Spend", tabName = "pointsbyspend", icon = icon("list"))
             )),
     
     dashboardBody(
@@ -77,7 +78,12 @@ dashboardPage(
                                                 choices = unique(salaries$club_name),
                                                 selected = 'New York Red Bulls'))),
                     fluidRow(box(width = 12, height = 500,
-                                plotOutput("clubboxplot"))))
+                                plotOutput("clubboxplot")))),
+            
+            tabItem(tabName = "pointsbyspend",
+                    fluidRow(box(
+                        plotlyOutput("pointsscatterplot", width = '175%', height='175%'))))
+            
         )
     )
 )

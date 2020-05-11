@@ -40,12 +40,19 @@ function(input, output) {
       select(season,club_name,club_abbr,last_name,first_name,annualized_average_guaranteed_comp)
       %>% filter(season == '2019')
       %>% filter(club_name == input$chooseclub1 | club_name == input$chooseclub2 | club_name == input$chooseclub3)
-      %>% ggplot(aes(club_name, y=annualized_average_guaranteed_comp)) +
+      %>% ggplot(aes(club_name, annualized_average_guaranteed_comp)) +
           geom_boxplot() +
           labs(title = '2019 Mean Annualized Average Guaranteed Compensation by Club',
               x='Club',
               y='Mean Annualized Average Guaranteed Compensation ($)') +
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
+  
+  output$pointsscatterplot = renderPlotly(
+    ggplot(pointsbyclubspend, aes(total_spend, points_per_match, text = club)) + geom_point(color='darkblue') +
+      labs(title = 'Points Per Match By Club Total Spend', x='Annual Salary Total ($)', y='Points Per Match') + 
+      scale_x_continuous(labels=dollar),
+    ggplotly(tooltip='text'))
+  
   
 }
 
