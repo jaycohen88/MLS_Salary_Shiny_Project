@@ -22,6 +22,27 @@ function(input, output, session) {
           theme(legend.position = "none") +
           scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
   
+  output$season1histogram = renderPlot(
+    seasontable %>%
+      select(season,annualized_average_guaranteed_comp)
+      %>% filter(season == input$chooseseason1)
+      %>% ggplot(aes(annualized_average_guaranteed_comp)) +
+          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000)) +
+          labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
+          coord_cartesian(xlim=c(0,1000000)) +
+          scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
+                                                                            '$500,000', '$600,000', '$700,000', '$800,000','$900,000','$1,000,000+')))
+  output$season2histogram = renderPlot(
+    seasontable %>%
+      select(season,annualized_average_guaranteed_comp)
+      %>% filter(season == input$chooseseason2)
+      %>% ggplot(aes(annualized_average_guaranteed_comp)) +
+          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000)) +
+          labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
+          coord_cartesian(xlim=c(0,1000000)) +
+          scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
+                                                                            '$500,000', '$600,000', '$700,000', '$800,000','$900,000','$1,000,000+')))
+          
   output$positionbarplot = renderPlot(
     positiontable %>%
       select(season,club_name,ispos,current_annualized_base_salary,annualized_average_guaranteed_comp)
@@ -58,6 +79,5 @@ function(input, output, session) {
     ggplotly(tooltip = 'text'))
   
 }
-
 
 

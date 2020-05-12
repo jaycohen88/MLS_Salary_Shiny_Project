@@ -8,7 +8,9 @@ dashboardPage(
         sidebarUserPanel('By: Jay Cohen'),
         sidebarMenu(
             menuItem("Data", tabName = "data", icon = icon("database")),
-            menuItem("By Season", tabName = "byseason", icon = icon("calendar")),
+            menuItem("By Season", tabName = "byseason", icon = icon("calendar"),
+                     menuSubItem("Boxplots", tabName = "seasonboxplottab"),
+                     menuSubItem("Histograms", tabName = "seasonhistogramstab")),
             menuItem("By Position", tabName = "byposition", icon = icon("search-location")),
             menuItem("By Club in 2019", tabName = "byclub", icon = icon("users")),
             menuItem("Points By Club Spend", tabName = "pointsbyspend", icon = icon("list"))
@@ -44,10 +46,28 @@ dashboardPage(
                              div("Salary Data from the MLS Players Association."),
                              div("Annualized Average Guaranteed Compensation includes a player's base salary and all signing and guaranteed bonuses and agent's fees annualized over the term of the player's contract, including option years."))),
             
-            tabItem(tabName = "byseason",
+            tabItem(tabName = "seasonboxplottab",
                     fluidRow(box(
                                 plotOutput("seasonboxplot", width = '1400px', height='800px')))),
-                          
+            
+            tabItem(tabName = "seasonhistogramstab",
+                    fluidRow(
+                        box(width = 6,
+                            selectizeInput(inputId = "chooseseason1",
+                                           label = "Season 1",
+                                           choices = unique(seasontable$season),
+                                           selected = '2014')),
+                        box(width = 6,
+                            selectizeInput(inputId = "chooseseason2",
+                                           label = "Season 2",
+                                           choices = unique(seasontable$season),
+                                           selected = '2019'))),
+                    fluidRow(
+                        box(width = 6,
+                            plotOutput("season1histogram")),
+                        box(width = 6,
+                            plotOutput("season2histogram")))),
+        
             tabItem(tabName = "byposition",
                     fluidRow(box(width = 8,
                                  selectizeInput(inputId = "byposclub",
