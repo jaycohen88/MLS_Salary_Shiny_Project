@@ -9,7 +9,7 @@ function(input, output, session) {
   
   output$salarytable = renderDT(
     datatable(filtertable(), rownames=FALSE) %>% formatCurrency(columns=c('Annualized Base Salary','Annualized Average Guaranteed Compensation'), digits=0))
-
+  
   output$seasonboxplot = renderPlot(
     seasontable %>%
       select(season,club_name,last_name,first_name,annualized_average_guaranteed_comp)
@@ -22,12 +22,70 @@ function(input, output, session) {
           theme(legend.position = "none") +
           scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
   
+  fillseasonhist1 = reactive({
+    if (input$chooseseason1 == '2019') {
+      print("#440154FF")
+    } else if (input$chooseseason1 == '2018') {
+      print('#481F70FF')
+    } else if (input$chooseseason1 == '2017') {
+      print('#443A83FF')
+    } else if (input$chooseseason1 == '2016') {
+      print('#3B528BFF')
+    } else if (input$chooseseason1 == '2015') {
+      print('#31688EFF')
+    } else if (input$chooseseason1 == '2014') {
+      print('#287C8EFF')
+    } else if (input$chooseseason1 == '2013') {
+      print('#21908CFF')
+    } else if (input$chooseseason1 == '2012') {
+      print('#20A486FF')
+    } else if (input$chooseseason1 == '2011') {
+      print('#35B779FF')
+    } else if (input$chooseseason1 == '2010') {
+      print('#5DC863FF')
+    } else if (input$chooseseason1 == '2009') {
+      print('#8FD744FF')
+    } else if (input$chooseseason1 == '2008') {
+      print('#C7E020FF')
+    } else if (input$chooseseason1 == '2007') {
+      print('#FDE725FF')
+    }})
+  
+  fillseasonhist2 = reactive({
+    if (input$chooseseason2 == '2019') {
+      print("#440154FF")
+    } else if (input$chooseseason2 == '2018') {
+      print('#481F70FF')
+    } else if (input$chooseseason2 == '2017') {
+      print('#443A83FF')
+    } else if (input$chooseseason2 == '2016') {
+      print('#3B528BFF')
+    } else if (input$chooseseason2 == '2015') {
+      print('#31688EFF')
+    } else if (input$chooseseason2 == '2014') {
+      print('#287C8EFF')
+    } else if (input$chooseseason2 == '2013') {
+      print('#21908CFF')
+    } else if (input$chooseseason2 == '2012') {
+      print('#20A486FF')
+    } else if (input$chooseseason2 == '2011') {
+      print('#35B779FF')
+    } else if (input$chooseseason2 == '2010') {
+      print('#5DC863FF')
+    } else if (input$chooseseason2 == '2009') {
+      print('#8FD744FF')
+    } else if (input$chooseseason2 == '2008') {
+      print('#C7E020FF')
+    } else if (input$chooseseason2 == '2007') {
+      print('#FDE725FF')
+    }})
+  
   output$season1histogram = renderPlot(
     seasontable %>%
       select(season,annualized_average_guaranteed_comp)
       %>% filter(season == input$chooseseason1)
       %>% ggplot(aes(annualized_average_guaranteed_comp)) +
-          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000)) +
+          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000), fill=fillseasonhist1()) +
           labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
           coord_cartesian(xlim=c(0,1000000)) +
           scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
@@ -37,7 +95,7 @@ function(input, output, session) {
       select(season,annualized_average_guaranteed_comp)
       %>% filter(season == input$chooseseason2)
       %>% ggplot(aes(annualized_average_guaranteed_comp)) +
-          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000)) +
+          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000), fill=fillseasonhist1()) +
           labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
           coord_cartesian(xlim=c(0,1000000)) +
           scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
