@@ -7,7 +7,7 @@ library(scales)
 library(plotly)
 library(viridis)
 
-salaries = fread(file = 'Final_Salary_Data.csv')
+salaries = fread(file = '/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/MLS_Salary_Shiny_App/Final_Salary_Data.csv')
 
 GKtable = mutate(salaries,'isGK' = str_detect(position, 'GK'))
 GKtable = filter(GKtable, isGK == 'TRUE')
@@ -33,14 +33,11 @@ positiontable = rbind(GKtable, Dtable, Mtable, Ftable)
 
 mainsalariestable = salaries
 
-mainsalariestable$current_annualized_base_salary=formatC(mainsalariestable$current_annualized_base_salary,digits=0,format='f',big.mark=',')
-mainsalariestable$annualized_average_guaranteed_comp=formatC(mainsalariestable$annualized_average_guaranteed_comp,digits=0,format='f',big.mark=',')
-
 seasontable = salaries
 
 seasontable$season = as.factor(seasontable$season)
 
-points = fread(file = 'Points_Data_cleaned.csv')
+points = fread(file = '/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/MLS_Salary_Shiny_App/Points_Data_cleaned.csv')
 
 minipoints = points %>% select(club, season, points, points_per_match)
 

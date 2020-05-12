@@ -20,8 +20,7 @@ function(input, output) {
               x='Season',
               y='Annualized Average Guaranteed Compensation') +
           theme(legend.position = "none") +
-          scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
-    
+          scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
   
   output$positionbarplot = renderPlot(
     positiontable %>%
@@ -48,7 +47,7 @@ function(input, output) {
           labs(title = 'Distribution of Annualized Average Guaranteed Compensation by Club in 2019',
               x='Club',
               y='Annualized Average Guaranteed Compensation') +
-          scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)))
+          scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
   
   output$pointsscatterplot = renderPlotly(
     ggplot(pointsbyclubspend, aes(season_salary_total, points_per_match)) + geom_point(aes(color=season, text=club)) +
