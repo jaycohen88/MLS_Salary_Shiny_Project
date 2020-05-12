@@ -1,14 +1,14 @@
-function(input, output) {
+function(input, output, session) {
+  
+  filtertable = reactive({
+    mainsalariestable %>%
+      dplyr::select('Season'=season,'Club'=club_name,'Last Name'=last_name, 'First Name'=first_name,'Position'=position,
+             'Annualized Base Salary'=current_annualized_base_salary, 'Annualized Average Guaranteed Compensation'=annualized_average_guaranteed_comp) %>% dplyr::filter((Club %in% input$tableclub) & 
+                 (Season >= input$tableseason[1] & Season <= input$tableseason[2])) %>% dplyr::filter(str_detect(Position, paste(input$tableposition, collapse='|')))
+    })
   
   output$salarytable = renderDT(
-    mainsalariestable %>%
-      select('Season'=season,'Club'=club_name,'Last Name'=last_name, 'First Name'=first_name,'Position'=position,
-             'Annualized Base Salary ($)'=current_annualized_base_salary,
-             'Annualized Average Guaranteed Compensation ($)'=annualized_average_guaranteed_comp)
-      %>% filter((Club %in% input$tableclub) & 
-                 (Season >= input$tableseason[1] & Season <= input$tableseason[2]))
-      %>% filter(str_detect(Position, paste(input$tableposition, collapse='|'))),
-      rownames=FALSE)
+    datatable(filtertable(), rownames=FALSE) %>% formatCurrency(columns=c('Annualized Base Salary','Annualized Average Guaranteed Compensation'), digits=0))
 
   output$seasonboxplot = renderPlot(
     seasontable %>%
