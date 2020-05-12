@@ -12,7 +12,7 @@ dashboardPage(
                      menuSubItem("Boxplots", tabName = "seasonboxplottab"),
                      menuSubItem("Histograms", tabName = "seasonhistogramstab")),
             menuItem("By Position", tabName = "byposition", icon = icon("search-location")),
-            menuItem("By Club in 2019", tabName = "byclub", icon = icon("users")),
+            menuItem("By Club", tabName = "byclub", icon = icon("users")),
             menuItem("Points By Club Spend", tabName = "pointsbyspend", icon = icon("list"))
             )),
     
@@ -90,23 +90,23 @@ dashboardPage(
         
             tabItem(tabName = "byclub",
                     fluidRow(
-                                box(width = 4,
-                                 selectizeInput(inputId = "chooseclub1",
+                            box(width = 6,
+                                selectizeInput(inputId = "chooseclub1",
                                                 label = "Club 1",
-                                                choices = unique(salaries$club_name),
-                                                selected = 'Atlanta United')),
-                                 box(width = 4,
-                                 selectizeInput(inputId = "chooseclub2",
+                                                choices = unique(clubtable$club),
+                                                selected = 'New York Red Bulls 2019')),
+                            box(width = 6,
+                                selectizeInput(inputId = "chooseclub2",
                                                 label = "Club 2",
-                                                choices = unique(salaries$club_name),
-                                                selected = 'New York Red Bulls')),
-                                 box(width = 4,
-                                 selectizeInput(inputId = "chooseclub3",
-                                                label = "Club 3",
-                                                choices = unique(salaries$club_name),
-                                                selected = 'Toronto FC'))),
+                                                choices = unique(clubtable$club),
+                                                selected = 'Toronto FC 2019')),
                     fluidRow(box(
-                                plotOutput("clubboxplot", width = '1040px', height='700px')))),
+                                plotOutput("clubboxplot", width = '1040px', height='700px'))),
+                    fluidRow(
+                            box(width = 6,
+                                plotOutput("clubhistogram1"))),
+                            box(width = 6,
+                                plotOutput("clubhistogram2")))),
             
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(

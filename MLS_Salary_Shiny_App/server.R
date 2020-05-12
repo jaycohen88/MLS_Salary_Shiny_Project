@@ -95,7 +95,7 @@ function(input, output, session) {
       select(season,annualized_average_guaranteed_comp)
       %>% filter(season == input$chooseseason2)
       %>% ggplot(aes(annualized_average_guaranteed_comp)) +
-          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000), fill=fillseasonhist1()) +
+          geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000), fill=fillseasonhist2()) +
           labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
           coord_cartesian(xlim=c(0,1000000)) +
           scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
@@ -117,16 +117,90 @@ function(input, output, session) {
           scale_x_discrete(breaks=c("isGK","isD","isM","isF"), labels=c("GK","D","M","F")))
 
   output$clubboxplot = renderPlot(
-    salaries %>%
-      select(season,club_name,club_abbr,last_name,first_name,annualized_average_guaranteed_comp)
-      %>% filter(season == '2019')
-      %>% filter(club_name == input$chooseclub1 | club_name == input$chooseclub2 | club_name == input$chooseclub3)
-      %>% ggplot(aes(club_name, annualized_average_guaranteed_comp)) +
-          geom_boxplot(color="black", fill="#440154FF") +
-          labs(title = 'Distribution of Annualized Average Guaranteed Compensation by Club in 2019',
+    clubtable
+      %>% filter(club == input$chooseclub1 | club == input$chooseclub2)
+      %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
+          geom_boxplot() +
+          labs(title = 'Distribution of Annualized Average Guaranteed Compensation by Club',
               x='Club',
               y='Annualized Average Guaranteed Compensation') +
           scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
+  
+  fillclubhist1 = reactive({
+    if (str_detect(input$chooseclub1, '2019') == 'TRUE') {
+      print("#440154FF")
+    } else if (str_detect(input$chooseclub1, '2018') == 'TRUE') {
+      print('#481F70FF')
+    } else if (str_detect(input$chooseclub1, '2017') == 'TRUE') {
+      print('#443A83FF')
+    } else if (str_detect(input$chooseclub1, '2016') == 'TRUE') {
+      print('#3B528BFF')
+    } else if (str_detect(input$chooseclub1, '2015') == 'TRUE') {
+      print('#31688EFF')
+    } else if (str_detect(input$chooseclub1, '2014') == 'TRUE') {
+      print('#287C8EFF')
+    } else if (str_detect(input$chooseclub1, '2013') == 'TRUE') {
+      print('#21908CFF')
+    } else if (str_detect(input$chooseclub1, '2012') == 'TRUE') {
+      print('#20A486FF')
+    } else if (str_detect(input$chooseclub1, '2011') == 'TRUE') {
+      print('#35B779FF')
+    } else if (str_detect(input$chooseclub1, '2010') == 'TRUE') {
+      print('#5DC863FF')
+    } else if (str_detect(input$chooseclub1, '2009') == 'TRUE') {
+      print('#8FD744FF')
+    } else if (str_detect(input$chooseclub1, '2008') == 'TRUE') {
+      print('#C7E020FF')
+    } else if (str_detect(input$chooseclub1, '2007') == 'TRUE') {
+      print('#FDE725FF')
+    }})
+  
+  fillclubhist2 = reactive({
+    if (str_detect(input$chooseclub2, '2019') == 'TRUE') {
+      print("#440154FF")
+    } else if (str_detect(input$chooseclub2, '2018') == 'TRUE') {
+      print('#481F70FF')
+    } else if (str_detect(input$chooseclub2, '2017') == 'TRUE') {
+      print('#443A83FF')
+    } else if (str_detect(input$chooseclub2, '2016') == 'TRUE') {
+      print('#3B528BFF')
+    } else if (str_detect(input$chooseclub2, '2015') == 'TRUE') {
+      print('#31688EFF')
+    } else if (str_detect(input$chooseclub2, '2014') == 'TRUE') {
+      print('#287C8EFF')
+    } else if (str_detect(input$chooseclub2, '2013') == 'TRUE') {
+      print('#21908CFF')
+    } else if (str_detect(input$chooseclub2, '2012') == 'TRUE') {
+      print('#20A486FF')
+    } else if (str_detect(input$chooseclub2, '2011') == 'TRUE') {
+      print('#35B779FF')
+    } else if (str_detect(input$chooseclub2, '2010') == 'TRUE') {
+      print('#5DC863FF')
+    } else if (str_detect(input$chooseclub2, '2009') == 'TRUE') {
+      print('#8FD744FF')
+    } else if (str_detect(input$chooseclub2, '2008') == 'TRUE') {
+      print('#C7E020FF')
+    } else if (str_detect(input$chooseclub2, '2007') == 'TRUE') {
+      print('#FDE725FF')
+    }})
+  
+  output$clubhistogram1 = renderPlot(
+    clubtable %>% filter(club == input$chooseclub1)
+    %>% ggplot(aes(annualized_average_guaranteed_comp)) +
+        geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000), fill=fillclubhist1()) +
+        labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
+        coord_cartesian(xlim=c(0,1000000)) +
+        scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
+                                                                        '$500,000', '$600,000', '$700,000', '$800,000','$900,000','$1,000,000+')))
+  
+  output$clubhistogram2 = renderPlot(
+    clubtable %>% filter(club == input$chooseclub2)
+    %>% ggplot(aes(annualized_average_guaranteed_comp)) +
+      geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000), fill=fillclubhist2()) +
+      labs(x="Annualized Average Guaranteed Compensation", y="Number of Players") +
+      coord_cartesian(xlim=c(0,1000000)) +
+      scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
+                                                                        '$500,000', '$600,000', '$700,000', '$800,000','$900,000','$1,000,000+')))
   
   output$pointsscatterplot = renderPlotly(
     ggplot(pointsbyclubspend, aes(season_salary_total, points_per_match)) + geom_point(aes(color=season, text=club)) +

@@ -34,7 +34,6 @@ positiontable = rbind(GKtable, Dtable, Mtable, Ftable)
 mainsalariestable = salaries
 
 seasontable = salaries
-
 seasontable$season = as.factor(seasontable$season)
 
 points = fread(file = '/Users/jaycohen/Documents/NYCDSA/Shiny_Project/MLS_Salary_Shiny_Project/MLS_Salary_Shiny_App/Points_Data_cleaned.csv')
@@ -52,4 +51,7 @@ pointsbyclubspend = rename(pointsbyclubspend, season_salary_total = 'sum(annuali
 pointsbyclubspend$season = as.character(pointsbyclubspend$season)
 pointsbyclubspend = select(pointsbyclubspend, club, season, season_salary_total, points_per_match)
 
+clubtable = minisalaries
+clubtable$season = as.character(clubtable$season)
+clubtable = unite(data=clubtable, col = 'club', club, season, sep=' ')
 
