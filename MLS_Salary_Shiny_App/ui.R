@@ -1,10 +1,10 @@
 dashboardPage(
     
     dashboardHeader(title = 'MLS Salary Data 2007-2019',
-                    titleWidth = 300),
+                    titleWidth = 280),
     
     dashboardSidebar(
-        width = 300,
+        width = 280,
         sidebarUserPanel('By: Jay Cohen'),
         sidebarMenu(
             menuItem("Data", tabName = "data", icon = icon("database")),
@@ -46,9 +46,7 @@ dashboardPage(
             
             tabItem(tabName = "byseason",
                     fluidRow(box(width = 12, height = 500,
-                                plotOutput("seasonboxplot"))),
-                    fluidRow(h4("Notes"),
-                            div("Mean Annualized Average Guaranteed Compensation equals the mean of the annualized average guaranteed compensation figures for each player in the League that season."))),
+                                plotOutput("seasonboxplot")))),
                           
             tabItem(tabName = "byposition",
                     fluidRow(box(width = 6,
@@ -85,9 +83,7 @@ dashboardPage(
                                                 choices = unique(salaries$club_name),
                                                 selected = 'Toronto FC'))),
                     fluidRow(box(width = 12, height = 500,
-                                plotOutput("clubboxplot"))),
-                    fluidRow(h4("Notes"),
-                             div("Mean Annualized Average Guaranteed Compensation equals the mean of the annualized average guaranteed compensation figures for each player on the selected clubs during the 2019 season."))),
+                                plotOutput("clubboxplot")))),
             
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(
