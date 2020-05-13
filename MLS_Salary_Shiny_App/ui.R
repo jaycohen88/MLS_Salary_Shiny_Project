@@ -9,8 +9,8 @@ dashboardPage(
         sidebarMenu(
             menuItem("Data", tabName = "data", icon = icon("database")),
             menuItem("By Season", tabName = "byseason", icon = icon("calendar"),
-                     menuSubItem("Boxplots", tabName = "seasonboxplottab"),
-                     menuSubItem("Histograms", tabName = "seasonhistogramstab")),
+                     menuSubItem("2007-2019 Boxplot", tabName = "seasonboxplottab"),
+                     menuSubItem("Season vs Season Histograms", tabName = "seasonhistogramstab")),
             menuItem("By Position", tabName = "byposition", icon = icon("search-location")),
             menuItem("By Club", tabName = "byclub", icon = icon("users")),
             menuItem("Points By Club Spend", tabName = "pointsbyspend", icon = icon("list"))
@@ -57,16 +57,16 @@ dashboardPage(
                                            label = "Season 1",
                                            choices = unique(seasontable$season),
                                            selected = '2014')),
-                        box(width = 6,
+                        box(width = 6, 
                             selectizeInput(inputId = "chooseseason2",
                                            label = "Season 2",
                                            choices = unique(seasontable$season),
                                            selected = '2019'))),
                     fluidRow(
                         box(width = 6,
-                            plotOutput("season1histogram")),
+                            plotOutput("season1histogram", width ='100%', height = '600px')),
                         box(width = 6,
-                            plotOutput("season2histogram")))),
+                            plotOutput("season2histogram", width ='100%', height = '600px')))),
         
             tabItem(tabName = "byposition",
                     fluidRow(box(width = 8,
@@ -99,14 +99,18 @@ dashboardPage(
                                 selectizeInput(inputId = "chooseclub2",
                                                 label = "Club 2",
                                                 choices = unique(clubtable$club),
-                                                selected = 'Toronto FC 2019')),
-                    fluidRow(box(
-                                plotOutput("clubboxplot", width = '1040px', height='700px'))),
+                                                selected = 'Toronto FC 2019'))),
                     fluidRow(
-                            box(width = 6,
-                                plotOutput("clubhistogram1"))),
-                            box(width = 6,
-                                plotOutput("clubhistogram2")))),
+                            box(
+                                plotOutput("club1boxplot")),
+                            box(
+                                plotOutput("club2boxplot"))),
+                    
+                    fluidRow(
+                            box(
+                                plotOutput("club1density")),
+                            box(
+                                plotOutput("club2density")))),
             
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(
