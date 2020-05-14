@@ -5,8 +5,8 @@ account: jaycohen88
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2277857
-bundleId: 3143692
+bundleId: 3147971
 url: https://jaycohen88.shinyapps.io/MLS_Salary_Shiny_App/
-when: 1589399199.34374
+when: 1589476202.15603
 asMultiple: FALSE
 asStatic: FALSE

@@ -8,7 +8,7 @@ function(input, output, session) {
     })
   
   output$salarytable = renderDT(
-    datatable(filtertable(), rownames=FALSE, options = list(pageLength = 25, order = list(list(6, 'desc'), list(2, 'desc'), list(3, 'desc'), list(0, 'desc'), list(1, 'desc')))) %>% formatCurrency(columns=c('Annualized Base Salary','Annualized Average Guaranteed Compensation'), digits=0))
+    datatable(filtertable(), rownames=FALSE, options = list(pageLength = 25, order = list(list(2, 'asc'), list(3, 'asc'), list(0, 'desc')))) %>% formatCurrency(columns=c('Annualized Base Salary','Annualized Average Guaranteed Compensation'), digits=0))
   
   output$seasonboxplot1 = renderPlot(
     seasontable %>%
