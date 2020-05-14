@@ -8,9 +8,9 @@ function(input, output, session) {
     })
   
   output$salarytable = renderDT(
-    datatable(filtertable(), rownames=FALSE) %>% formatCurrency(columns=c('Annualized Base Salary','Annualized Average Guaranteed Compensation'), digits=0))
+    datatable(filtertable(), rownames=FALSE, options = list(pageLength = 25, order = list(list(6, 'desc'), list(2, 'desc'), list(3, 'desc'), list(0, 'desc'), list(1, 'desc')))) %>% formatCurrency(columns=c('Annualized Base Salary','Annualized Average Guaranteed Compensation'), digits=0))
   
-  output$seasonboxplot = renderPlot(
+  output$seasonboxplot1 = renderPlot(
     seasontable %>%
       select(season,club_name,last_name,first_name,annualized_average_guaranteed_comp)
       %>% ggplot(aes(x=season, y=annualized_average_guaranteed_comp, fill=season)) +
@@ -21,6 +21,19 @@ function(input, output, session) {
               y='Annualized Average Guaranteed Compensation') +
           theme(legend.position = "none") +
           scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
+  
+  output$seasonboxplot2 = renderPlot(
+    seasontable %>%
+      select(season, annualized_average_guaranteed_comp)
+    %>% ggplot(aes(x=season, y=annualized_average_guaranteed_comp, fill=season)) +
+      geom_boxplot() +
+      scale_fill_viridis(direction=-1, discrete=TRUE) +
+      labs(title = 'Distribution of Annualized Average Guaranteed Compensation by Season $0 - $1,000,000',
+           x='Season',
+           y='Annualized Average Guaranteed Compensation') +
+      theme(legend.position = "none") +
+      coord_cartesian(ylim = c(0, 1000000)) +
+      scale_y_continuous(labels=dollar, breaks=seq(0,1000000,100000)))
   
   fillseasonhist1 = reactive({
     if (input$chooseseason1 == '2019') {
@@ -116,7 +129,7 @@ function(input, output, session) {
           scale_y_continuous(labels=dollar, breaks=seq(0,700000,100000), limits = c(0,700000)) +
           scale_x_discrete(breaks=c("isGK","isD","isM","isF"), labels=c("GK","D","M","F")))
   
-  fillclub1density = reactive({
+  fillclub1box = reactive({
     if (str_detect(input$chooseclub1, '2019') == 'TRUE') {
       print("#440154FF")
     } else if (str_detect(input$chooseclub1, '2018') == 'TRUE') {
@@ -145,7 +158,7 @@ function(input, output, session) {
       print('#FDE725FF')
     }})
   
-  fillclub2density = reactive({
+  fillclub2box = reactive({
     if (str_detect(input$chooseclub2, '2019') == 'TRUE') {
       print("#440154FF")
     } else if (str_detect(input$chooseclub2, '2018') == 'TRUE') {
@@ -174,65 +187,47 @@ function(input, output, session) {
       print('#FDE725FF')
     }})
   
-  output$club1boxplot = renderPlot(
+  output$club1boxplot1 = renderPlot(
     clubtable
     %>% filter(club == input$chooseclub1)
     %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
-        geom_boxplot(fill=fillclub1density()) +
+        geom_boxplot(fill=fillclub1box()) +
         labs(title = 'Distribution of Annualized Average Guaranteed Compensation',
             x='Club',
             y='Annualized Average Guaranteed Compensation') +
         scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
   
-  output$club2boxplot = renderPlot(
+  output$club2boxplot1 = renderPlot(
     clubtable
     %>% filter(club == input$chooseclub2)
     %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
-        geom_boxplot(fill=fillclub2density()) +
+        geom_boxplot(fill=fillclub2box()) +
         labs(title = 'Distribution of Annualized Average Guaranteed Compensation',
             x='Club',
             y='Annualized Average Guaranteed Compensation') +
         scale_y_continuous(labels=dollar, breaks=seq(0,7300000,1000000), limits = c(0,7300000)))
   
-  club1histvaluesfun = reactive({
-    club1histdata = filter(clubtable, club == input$chooseclub1)
-    club1histplot=ggplot(data=club1histdata, aes(x=annualized_average_guaranteed_comp)) + geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000))
-    plot1data = ggplot_build(club1histplot)
-    club1histvalues = unlist(plot1data$data[[1]]$count)
-    club1histvalues = append(club1histvalues, 0, after=0)
-    club1df = tibble('aagc'=c(0, seq(12500, 1012500, by=25000)), 'numplay'=c(club1histvalues))
-    club1df})
+  output$club1boxplot2 = renderPlot(
+    clubtable
+    %>% filter(club == input$chooseclub1)
+    %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
+      geom_boxplot(fill=fillclub1box()) +
+      labs(title = 'Distribution of Annualized Average Guaranteed Compensation $0 - $1,000,000',
+           x='Club',
+           y='Annualized Average Guaranteed Compensation') +
+      coord_cartesian(ylim = c(0, 1000000)) +
+      scale_y_continuous(labels=dollar, breaks=seq(0,1000000,100000)))
   
-  club2histvaluesfun = reactive({
-    club2histdata = filter(clubtable, club == input$chooseclub2)
-    club2histplot=ggplot(data=club2histdata, aes(x=annualized_average_guaranteed_comp)) + geom_histogram(breaks=c(seq(0, 1000000, by=25000), 7500000))
-    plot2data = ggplot_build(club2histplot)
-    club2histvalues = unlist(plot2data$data[[1]]$count)
-    club2histvalues = append(club2histvalues, 0, after=0)
-    club2df = tibble('aagc'=c(0, seq(12500, 1012500, by=25000)), 'numplay'=c(club2histvalues))
-    club2df})
-  
-  output$club1density = renderPlot(
-    ggplot(data=club1histvaluesfun(), aes(x=club1histvaluesfun()$aagc, y=club1histvaluesfun()$numplay)) +
-      geom_point(size=0.2) +
-      geom_line() +
-      geom_area(fill=fillclub1density()) +
-      labs(title = 'Distribution of Annualized Average Guaranteed Compensation', x="Annualized Average Guaranteed Compensation", y="Number of Players") +
-      coord_cartesian(xlim=c(0,1000000), ylim =c(0,13)) +
-      scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
-                                                                        '$500,000', '$600,000', '$700,000', '$800,000','$900,000','$1,000,000+')) +
-      scale_y_continuous(breaks=c(seq(0, 13, by=1))))
-  
-  output$club2density = renderPlot(
-    ggplot(data=club2histvaluesfun(), aes(x=club2histvaluesfun()$aagc, y=club2histvaluesfun()$numplay)) +
-      geom_point(size=0.2) +
-      geom_line() +
-      geom_area(fill=fillclub2density()) +
-      labs(title = 'Distribution of Annualized Average Guaranteed Compensation', x="Annualized Average Guaranteed Compensation", y="Number of Players") +
-      coord_cartesian(xlim=c(0,1000000), ylim =c(0,13)) +
-      scale_x_continuous(breaks=c(seq(0, 1000000, by=100000)), labels=c('$0', '$100,000', '$200,000', '$300,000', '$400,000',
-                                                                        '$500,000', '$600,000', '$700,000', '$800,000','$900,000','$1,000,000+')) +
-      scale_y_continuous(breaks=c(seq(0, 13, by=1))))
+  output$club2boxplot2 = renderPlot(
+    clubtable
+    %>% filter(club == input$chooseclub2)
+    %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
+      geom_boxplot(fill=fillclub2box()) +
+      labs(title = 'Distribution of Annualized Average Guaranteed Compensation $0 - $1,000,000',
+           x='Club',
+           y='Annualized Average Guaranteed Compensation') +
+      coord_cartesian(ylim = c(0, 1000000)) +
+      scale_y_continuous(labels=dollar, breaks=seq(0,1000000,100000)))
   
   output$pointsscatterplot = renderPlotly(
     ggplot(pointsbyclubspend, aes(season_salary_total, points_per_match)) + geom_point(aes(color=season, text=club)) +
