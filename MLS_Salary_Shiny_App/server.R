@@ -28,7 +28,7 @@ function(input, output, session) {
     %>% ggplot(aes(x=season, y=annualized_average_guaranteed_comp, fill=season)) +
       geom_boxplot() +
       scale_fill_viridis(direction=-1, discrete=TRUE) +
-      labs(title = 'Distribution of Annualized Average Guaranteed Compensation by Season $0 - $1,000,000',
+      labs(title = '$0 - $1,000,000 Section of Distribution of Annualized Average Guaranteed Compensation by Season',
            x='Season',
            y='Annualized Average Guaranteed Compensation') +
       theme(legend.position = "none") +
@@ -212,7 +212,7 @@ function(input, output, session) {
     %>% filter(club == input$chooseclub1)
     %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
       geom_boxplot(fill=fillclub1box()) +
-      labs(title = 'Distribution of Annualized Average Guaranteed Compensation $0 - $1,000,000',
+      labs(title = '$0 - $1,000,000 Section of Distribution of Annualized Average Guaranteed Compensation',
            x='Club',
            y='Annualized Average Guaranteed Compensation') +
       coord_cartesian(ylim = c(0, 1000000)) +
@@ -223,7 +223,7 @@ function(input, output, session) {
     %>% filter(club == input$chooseclub2)
     %>% ggplot(aes(club, annualized_average_guaranteed_comp)) +
       geom_boxplot(fill=fillclub2box()) +
-      labs(title = 'Distribution of Annualized Average Guaranteed Compensation $0 - $1,000,000',
+      labs(title = '$0 - $1,000,000 Section of Distribution of Annualized Average Guaranteed Compensation',
            x='Club',
            y='Annualized Average Guaranteed Compensation') +
       coord_cartesian(ylim = c(0, 1000000)) +
@@ -231,12 +231,16 @@ function(input, output, session) {
   
   output$pointsscatterplot = renderPlotly(
     ggplot(pointsbyclubspend, aes(season_salary_total, points_per_match)) + geom_point(aes(color=season, text=club)) +
-      geom_smooth(method=lm) +
       labs(title = 'Points Per Match By Club Season Salary Total', x='Club Season Salary Total', y='Points Per Match') + 
       scale_color_viridis(direction = -1, discrete = TRUE) +
       scale_x_continuous(labels=dollar),
     ggplotly(tooltip = 'text'))
   
+  output$pointsscatterplotlog = renderPlotly(
+    ggplot(pointsbyclubspend, aes(x=log10(season_salary_total), y=points_per_match)) + geom_point(aes(color=season, text=club)) +
+      geom_smooth(method=lm) +
+      labs(title = 'Points Per Match By Log of Club Season Salary Total', x='Log of Club Season Salary Total', y='Points Per Match') + 
+      scale_color_viridis(direction = -1, discrete = TRUE),
+    ggplotly(tooltip = 'text'))
+  
 }
-
-

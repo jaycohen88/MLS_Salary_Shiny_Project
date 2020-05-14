@@ -117,6 +117,8 @@ dashboardPage(
             tabItem(tabName = "pointsbyspend",
                     fluidRow(box(
                                 plotlyOutput("pointsscatterplot", width = '1000px', height='500px'))),
+                    fluidRow(box(
+                                plotlyOutput("pointsscatterplotlog", width = '1000px', height='500px'))),
                     fluidRow(h4("Notes"),
                              div("Club Season Salary Total equals the sum of the annualized average guaranteed compensation figures for each player on the club that season.")))
                     
