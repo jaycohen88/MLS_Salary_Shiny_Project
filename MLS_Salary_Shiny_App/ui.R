@@ -47,10 +47,10 @@ dashboardPage(
                              div("Annualized Average Guaranteed Compensation includes a player's base salary and all signing and guaranteed bonuses and agent's fees annualized over the term of the player's contract, including option years."))),
             
             tabItem(tabName = "seasonboxplottab",
-                    fluidRow(box(
-                                plotOutput("seasonboxplot1", width = '1400px', height='800px'))),
-                    fluidRow(box(
-                                plotOutput("seasonboxplot2", width = '1400px', height='600px')))),
+                    fluidRow(box(width = 12,
+                                plotOutput("seasonboxplot1", width = '100%', height='800px'))),
+                    fluidRow(box(width = 12,
+                                plotOutput("seasonboxplot2", width = '100%', height='600px')))),
             
             tabItem(tabName = "seasonhistogramstab",
                     fluidRow(
@@ -85,8 +85,8 @@ dashboardPage(
                                              value = c(2007,2019),
                                              step = 1,
                                              sep = ""))),
-                    fluidRow(box(
-                                plotOutput("positionbarplot", width = '1040px', height = '650px'))),
+                    fluidRow(box(width = 8,
+                                plotOutput("positionbarplot", width = '100%', height = '650px'))),
                     fluidRow(h4("Notes"),
                              div("Mean Annualized Average Guaranteed Compensation equals the mean of the annualized average guaranteed compensation figures for each player playing each position on the selected clubs during the selected season(s)."))),
         
@@ -115,10 +115,10 @@ dashboardPage(
                                 plotOutput("club2boxplot2")))),
             
             tabItem(tabName = "pointsbyspend",
-                    fluidRow(box(
-                                plotlyOutput("pointsscatterplot", width = '1000px', height='500px'))),
-                    fluidRow(box(
-                                plotlyOutput("pointsscatterplotlog", width = '1000px', height='500px'))),
+                    fluidRow(box(width = 10,
+                                plotlyOutput("pointsscatterplot", width = '100%', height='500px'))),
+                    fluidRow(box(width = 10,
+                                plotlyOutput("pointsscatterplotlog", width = '100%', height='500px'))),
                     fluidRow(h4("Notes"),
                              div("Club Season Salary Total equals the sum of the annualized average guaranteed compensation figures for each player on the club that season.")))
                     
